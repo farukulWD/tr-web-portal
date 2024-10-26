@@ -1,22 +1,22 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import GlobalForm from "../globalComponents/GlobalForm";
 import { TFormField } from "@/app/types/globalTypes";
 import { z } from "zod";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-const Login = () => {
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+
+const LoginComp = () => {
+  const navigate = useRouter();
   const formFields: TFormField[] = [
-    {
-      name: "username",
-      label: "Username",
-      placeholder: "shadcn",
-      description: "This is your public display name.",
-      type: "text",
-      validation: z
-        .string()
-        .min(2, { message: "Username must be at least 2 characters." }),
-    },
     {
       name: "email",
       label: "Email",
@@ -37,25 +37,28 @@ const Login = () => {
         .string()
         .min(6, { message: "Password must be at least 6 characters." }),
     },
-    {
-      name: "confirm-password",
-      label: "Confirm Password",
-      placeholder: "Enter your password",
-      // description: "Choose a strong password.",
-      type: "password",
-      validation: z
-        .string()
-        .min(6, { message: "Password must be at least 6 characters." }),
-    },
   ];
   const submitLogic = async (vales: any) => {
     console.log(vales);
+    if (vales) {
+      navigate.replace("/");
+    }
   };
   return (
     <>
-      <GlobalForm formFields={formFields} submitLogic={submitLogic} />
+      <Card className="mx-auto max-w-sm">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold">Login</CardTitle>
+          <CardDescription>
+            Enter your email and password to login to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <GlobalForm formFields={formFields} submitLogic={submitLogic} />
+        </CardContent>
+      </Card>
     </>
   );
 };
 
-export default Login;
+export default LoginComp;
