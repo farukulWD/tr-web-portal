@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
-export default function AuthLayout({children}:{children:React.ReactDOM}) {
-  return (
-    <>
-      {children}
-    </>
-  )
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
 }
