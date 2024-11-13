@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { ChevronRight, GalleryVerticalEnd } from "lucide-react";
 
@@ -20,20 +21,41 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 // This is sample data.
+
 const data = {
   navMain: [
     {
-      title: "Getting Started",
+      title: "Dealer",
       url: "#",
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: "Order entry",
+          url: "/dashboard/dealer/order-entry",
+          isActive: true,
         },
         {
-          title: "Project Structure",
-          url: "#",
+          title: "Damage Entry",
+          url: "/dashboard/dealer/damage-entry",
+        },
+        {
+          title: "Incentive",
+          url: "/dashboard/dealer/incentive",
+        },
+        {
+          title: "Product List",
+          url: "/dashboard/dealer/product-list",
+        },
+        {
+          title: "Undelivered",
+          url: "/dashboard/dealer/undelivered",
+        },
+        {
+          title: "View Order",
+          url: "/dashboard/dealer/view-order",
         },
       ],
     },
@@ -48,7 +70,7 @@ const data = {
         {
           title: "Data Fetching",
           url: "#",
-          isActive: true,
+          //   isActive: true,
         },
         {
           title: "Rendering",
@@ -162,6 +184,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const path = usePathname();
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -206,9 +229,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                               size="sm"
                               className="font-semibold"
                               asChild
-                              isActive={item.isActive}
+                              isActive={path === item?.url ? true : false}
                             >
-                              <a href={item.url}>{item.title}</a>
+                              <Link href={item?.url}>{item?.title}</Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
