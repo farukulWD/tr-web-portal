@@ -1,7 +1,7 @@
 import React from "react";
 
-function DamageEntryPage() {
+function DamageEntry() {
   return <div>DamageEntryPage</div>;
 }
 
-export default DamageEntryPage;
+export default DamageEntry;

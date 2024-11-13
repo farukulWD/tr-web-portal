@@ -1,7 +1,7 @@
 import React from "react";
 
-function ViewOrderPage() {
+function ViewOrder() {
   return <div>ViewOrderPage</div>;
 }
 
-export default ViewOrderPage;
+export default ViewOrder;

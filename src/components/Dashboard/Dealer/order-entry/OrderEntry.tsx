@@ -1,7 +1,7 @@
 import React from "react";
 
-function OrderEntryPage() {
+function OrderEntry() {
   return <div>OrderEntryPage</div>;
 }
 
-export default OrderEntryPage;
+export default OrderEntry;
