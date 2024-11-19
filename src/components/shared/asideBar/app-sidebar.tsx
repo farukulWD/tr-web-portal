@@ -212,6 +212,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 key={item.title}
                 defaultOpen={index === 1}
                 className="group/collapsible"
+                // className=""
               >
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
