@@ -1,13 +1,6 @@
 import { AppSidebar } from "@/components/shared/asideBar/app-sidebar";
 import GBreadcrumb from "@/components/shared/asideBar/GBreadcrumb";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  // BreadcrumbPage,
-  // BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,

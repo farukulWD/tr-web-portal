@@ -10,20 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
-interface Column {
-  key: string;
-  label: string;
-  align?: "left" | "center" | "right" | undefined;
-  width?: string | undefined;
-  render?: (value: any, row: any[]) => React.ReactNode | undefined;
-}
-
-interface Footer {
-  key: string;
-  label: string;
-  render?: (data: any[]) => React.ReactNode; // Footer rendering logic should work on the full dataset
-}
+import { Column, Footer } from "@/app/types/globalTypes";
 
 interface GlobalTableProps {
   columns: Column[];
@@ -35,7 +22,6 @@ interface GlobalTableProps {
 const GlobalTable: React.FC<GlobalTableProps> = ({
   columns,
   data,
-
   footers,
 }) => {
   return (
