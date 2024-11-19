@@ -4,6 +4,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -12,7 +13,7 @@ const GBreadcrumb = () => {
   const path = usePathname();
 
   const spitePath = path.split("/").slice(1, path.length);
-  console.log(spitePath);
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -22,14 +23,17 @@ const GBreadcrumb = () => {
           </BreadcrumbLink>
         </BreadcrumbItem>
 
-        <>
-          {spitePath.map((item) => (
-            <BreadcrumbItem key={item}>
-              {/* <BreadcrumbSeparator className="hidden md:block" /> */}
+        {spitePath.map((item) => (
+          <>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem
+              key={item}
+              className="cursor-pointer hover:text-primary"
+            >
               {item}
             </BreadcrumbItem>
-          ))}
-        </>
+          </>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );
