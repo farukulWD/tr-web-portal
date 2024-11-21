@@ -50,60 +50,63 @@ const ProfilePage = () => {
     ],
   };
   return (
-    <div>
-      {" "}
-      <Card className="max-w-2xl mx-auto shadow-lg">
-        <CardHeader className="flex flex-col items-center space-y-4 pb-2">
-          <div className="relative w-24 h-24">
-            <Image
-              src="/placeholder.svg?height=96&width=96"
-              alt="Logo"
-              layout="fill"
-              className="rounded-full border-4 border-primary"
-            />
-            <Badge className="absolute bottom-0 right-0" variant="secondary">
-              WD
-            </Badge>
-          </div>
-          <div className="text-center">
-            <CardTitle className="text-3xl font-bold">834384</CardTitle>
-            <CardDescription className="text-lg mt-1">
-              {data?.name}
-            </CardDescription>
-          </div>
-          <div className="flex space-x-2">
-            <LinkButton
-              href={`tel:${data?.mobileNumber}`}
-              variant={"outline"}
-              size={"sm"}
-            >
-              <Phone className="w-4 h-4 mr-2" />
-              Call
-            </LinkButton>
-            <LinkButton
-              href={`mailto:${data?.email}`}
-              variant="outline"
-              size="sm"
-            >
-              <Mail className="w-4 h-4 mr-2" />
-              Email
-            </LinkButton>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <Separator className="my-4" />
-          <div className="grid gap-4">
-            {data?.info?.map((item, index) => (
-              <InfoItem
-                key={index}
-                label={item.label}
-                value={item.value}
-                url={item.url}
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full">
+        <Card className="max-w-2xl mx-auto shadow-lg ">
+          <CardHeader className="flex flex-col items-center space-y-4 pb-2 ">
+            <div className="relative w-24 h-24">
+              <Image
+                src="/placeholder.svg?height=96&width=96"
+                alt="Logo"
+                layout="fill"
+                className="rounded-full border-4 border-primary"
               />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              <Badge className="absolute bottom-0 right-0" variant="secondary">
+                WD
+              </Badge>
+            </div>
+            <div className="text-center">
+              <CardTitle className="md:text-2xl lg:text-3xl text-xl font-bold">
+                {data?.userId}
+              </CardTitle>
+              <CardDescription className="md:text-sm lg:text-lg mt-1 text-xs  ">
+                {data?.name}
+              </CardDescription>
+            </div>
+            <div className="flex space-x-2">
+              <LinkButton
+                href={`tel:${data?.mobileNumber}`}
+                variant={"outline"}
+                size={"sm"}
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Call
+              </LinkButton>
+              <LinkButton
+                href={`mailto:${data?.email}`}
+                variant="outline"
+                size="sm"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Email
+              </LinkButton>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Separator className="my-4" />
+            <div className="grid gap-4">
+              {data?.info?.map((item, index) => (
+                <InfoItem
+                  key={index}
+                  label={item.label}
+                  value={item.value}
+                  url={item.url}
+                />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
@@ -120,17 +123,21 @@ function InfoItem({
 }) {
   return (
     <div className="flex justify-between items-center">
-      <span className="font-medium text-muted-foreground">{label}</span>
+      <span className="font-medium text-muted-foreground text-sm grow-[1] md:text-base">
+        {label}
+      </span>
       {url ? (
         <Link
           href={url}
-          className="text-primary hover:underline flex items-center"
+          className="text-primary hover:underline flex items-center text-xs text-end md:text-base"
         >
           {value}
-          <ExternalLink className="w-4 h-4 ml-1" />
+          <ExternalLink className="w-4 h-4 ml-1 hidden md:inline" />
         </Link>
       ) : (
-        <span className="font-semibold">{value}</span>
+        <span className="font-semibold text-sm text-end md:text-base">
+          {value}
+        </span>
       )}
     </div>
   );
