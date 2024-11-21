@@ -24,7 +24,7 @@ const GBreadcrumb = () => {
         </BreadcrumbItem>
 
         {spitePath.map((item) => (
-          <>
+          <div key={item} className="flex items-center">
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem
               key={item}
@@ -32,7 +32,7 @@ const GBreadcrumb = () => {
             >
               {item}
             </BreadcrumbItem>
-          </>
+          </div>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
