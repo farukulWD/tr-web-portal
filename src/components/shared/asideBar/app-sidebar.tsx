@@ -25,163 +25,74 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 // This is sample data.
-
-const data = {
-  navMain: [
-    {
-      title: "Dealer",
-      url: "#",
-      items: [
-        {
-          title: "Order entry",
-          url: "/dashboard/dealer/order-entry",
-          isActive: true,
-        },
-        {
-          title: "Damage Entry",
-          url: "/dashboard/dealer/damage-entry",
-        },
-        {
-          title: "Incentive",
-          url: "/dashboard/dealer/incentive",
-        },
-        {
-          title: "Product List",
-          url: "/dashboard/dealer/product-list",
-        },
-        {
-          title: "Undelivered",
-          url: "/dashboard/dealer/undelivered",
-        },
-        {
-          title: "View Order",
-          url: "/dashboard/dealer/view-order",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          //   isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+interface navData {
+  title: string;
+  url: string;
+  items?: navData[];
+}
+const data: navData[] = [
+  {
+    title: "Dealer",
+    url: "#",
+    items: [
+      {
+        title: "Order entry",
+        url: "/dashboard/dealer/order-entry",
+      },
+      {
+        title: "Damage Entry",
+        url: "/dashboard/dealer/damage-entry",
+      },
+      {
+        title: "Incentive",
+        url: "/dashboard/dealer/incentive",
+      },
+      {
+        title: "Product List",
+        url: "/dashboard/dealer/product-list",
+      },
+      {
+        title: "Undelivered",
+        url: "/dashboard/dealer/undelivered",
+      },
+      {
+        title: "View Order",
+        url: "/dashboard/dealer/view-order",
+      },
+    ],
+  },
+  {
+    title: "Accounts",
+    url: "#",
+    items: [
+      {
+        title: "Profile",
+        url: "/dashboard/accounts/profile",
+      },
+      {
+        title: "Bank Info",
+        url: "/dashboard/accounts/bank-info",
+        // isActive: true,
+      },
+      {
+        title: "Change Password",
+        url: "/dashboard/accounts/change-password",
+      },
+      {
+        title: "Credit Info",
+        url: "/dashboard/accounts/credit-info",
+      },
+      {
+        title: "MR Info",
+        url: "/dashboard/accounts/mr-info",
+      },
+      {
+        title: "Nishchinto Fund",
+        url: "/dashboard/accounts/nishchinto-fund",
+      },
+    ],
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const path = usePathname();
@@ -207,7 +118,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.navMain.map((item, index) => (
+            {data?.map((item, index) => (
               <Collapsible
                 key={item.title}
                 defaultOpen={index === 1}
