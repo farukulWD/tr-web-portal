@@ -12,20 +12,22 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { useLoginMutation } from "@/redux/api/auth/authApi";
+
 
 const LoginComp = () => {
-  const navigate = useRouter();
+
+  const[login,{}]=useLoginMutation()
+ 
   const formFields: TFormField[] = [
     {
-      name: "email",
-      label: "Email",
-      placeholder: "example@domain.com",
+      name: "code",
+      label: "Code",
+      placeholder: "Enter your code",
       // description: "Enter your email address.",
-      type: "email",
-      validation: z
-        .string()
-        .email({ message: "Please enter a valid email address." }),
+      
+      type: "number",
+      validation: z.string().min(6, { message: "Code must be at least 6 characters." }).max(6, { message: "Code must be at most 6 characters." }),
     },
     {
       name: "password",
@@ -40,8 +42,11 @@ const LoginComp = () => {
   ];
   const submitLogic = async (vales: any) => {
     console.log(vales);
-    if (vales) {
-      navigate.replace("/");
+    try {
+      const res = await login(vales).unwrap();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (

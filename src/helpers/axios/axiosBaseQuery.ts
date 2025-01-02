@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { BaseQueryFn } from "@reduxjs/toolkit/query"
 import { AxiosError, AxiosRequestConfig } from "axios"
@@ -20,7 +21,7 @@ export const axiosBaseQuery =
   async ({ url, method, data, params, headers }) => {
     try {
       const result = await instance({
-        url: baseUrl + url,
+        url:  url,
         method,
         data,
         params,
