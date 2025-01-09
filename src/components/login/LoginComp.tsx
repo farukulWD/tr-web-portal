@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 
 import { z } from "zod";
@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import TrInput from "../Form/inputs/TrInput";
 import TrPasswordInput from "../Form/inputs/TrPasswordInput";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { globalErrorHandler } from "@/utils/globalErrorHandler";
 
 
 const LoginComp = () => {
@@ -36,9 +37,12 @@ const LoginComp = () => {
     
     try {
       const res = await login(vales).unwrap();
-      console.log({res});
+      if (res) {
+        console.log(res)
+      }
+    
     } catch (error) {
-      console.log(error);
+     globalErrorHandler(error)
     }
   };
   return (
@@ -53,7 +57,7 @@ const LoginComp = () => {
         <CardContent>
         <TrForm onSubmit={submitLogic}   resolver={zodResolver(loginSchema)}>
           
-          <TrInput name="code" placeholder="Type your Code " label="Code" type="number"/>
+          <TrInput name="code" placeholder="Type your Code " label="User Id" type="number"/>
           <TrPasswordInput name="password" placeholder="Type Your password" label="Password" />
 
           <Button type="submit">Login</Button>
