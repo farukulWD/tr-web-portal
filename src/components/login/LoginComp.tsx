@@ -1,8 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import GlobalForm from "../globalComponents/GlobalForm";
-import { TFormField } from "@/app/types/globalTypes";
+
 import { z } from "zod";
 
 import {
@@ -13,38 +12,31 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { useLoginMutation } from "@/redux/api/auth/authApi";
+import TrForm from "../Form/TrForm";
+import { Button } from "../ui/button";
+import TrInput from "../Form/inputs/TrInput";
+import TrPasswordInput from "../Form/inputs/TrPasswordInput";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 
 const LoginComp = () => {
 
   const[login,{}]=useLoginMutation()
  
-  const formFields: TFormField[] = [
-    {
-      name: "code",
-      label: "Code",
-      placeholder: "Enter your code",
-      // description: "Enter your email address.",
-      
-      type: "number",
-      validation: z.string().min(6, { message: "Code must be at least 6 characters." }).max(6, { message: "Code must be at most 6 characters." }),
-    },
-    {
-      name: "password",
-      label: "Password",
-      placeholder: "Enter your password",
-      // description: "Choose a strong password.",
-      type: "password",
-      validation: z
-        .string()
-        .min(6, { message: "Password must be at least 6 characters." }),
-    },
-  ];
+  
+
+
+  const loginSchema=z.object({
+   code:z.string().min(6, { message: "Code must be at least 6 characters." }).max(6, { message: "Code must be at most 6 characters." }),
+   
+   password:z.string()
+   .min(6, { message: "Password must be at least 6 characters." }),
+  })
   const submitLogic = async (vales: any) => {
-    console.log(vales);
+    
     try {
       const res = await login(vales).unwrap();
-      console.log(res);
+      console.log({res});
     } catch (error) {
       console.log(error);
     }
@@ -59,8 +51,16 @@ const LoginComp = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <GlobalForm formFields={formFields} submitLogic={submitLogic} />
+        <TrForm onSubmit={submitLogic}   resolver={zodResolver(loginSchema)}>
+          
+          <TrInput name="code" placeholder="Type your Code " label="Code" type="number"/>
+          <TrPasswordInput name="password" placeholder="Type Your password" label="Password" />
+
+          <Button type="submit">Login</Button>
+        </TrForm>
         </CardContent>
+
+        
       </Card>
     </>
   );
