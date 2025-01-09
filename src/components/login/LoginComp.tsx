@@ -18,31 +18,45 @@ import TrInput from "../Form/inputs/TrInput";
 import TrPasswordInput from "../Form/inputs/TrPasswordInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { globalErrorHandler } from "@/utils/globalErrorHandler";
+import { TResponse } from "@/types";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/redux/hook";
+import { setToken } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next-nprogress-bar";
+import { useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
+const loginSchema = z.object({
+  code: z
+    .string()
+    .min(6, { message: "Code must be at least 6 characters." })
+    .max(6, { message: "Code must be at most 6 characters." }),
 
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters." }),
+});
 const LoginComp = () => {
+  const dispatach = useAppDispatch();
+  const router = useRouter();
+  const search = useSearchParams();
 
-  const[login,{}]=useLoginMutation()
- 
-  
+  const redirect = search.get("redirect");
+  const [login, { isLoading }] = useLoginMutation();
 
-
-  const loginSchema=z.object({
-   code:z.string().min(6, { message: "Code must be at least 6 characters." }).max(6, { message: "Code must be at most 6 characters." }),
-   
-   password:z.string()
-   .min(6, { message: "Password must be at least 6 characters." }),
-  })
   const submitLogic = async (vales: any) => {
-    
     try {
-      const res = await login(vales).unwrap();
-      if (res) {
-        console.log(res)
+      const res: TResponse<{
+        accessToken: string;
+      }> = await login(vales).unwrap();
+      if (res.success) {
+        dispatach(setToken(res?.data?.accessToken));
+        localStorage.setItem("accessToken", res?.data?.accessToken);
+        toast.success(res.message);
+        router.push(redirect || "/dashboard");
       }
-    
     } catch (error) {
-     globalErrorHandler(error)
+      globalErrorHandler(error);
     }
   };
   return (
@@ -55,16 +69,24 @@ const LoginComp = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-        <TrForm onSubmit={submitLogic}   resolver={zodResolver(loginSchema)}>
-          
-          <TrInput name="code" placeholder="Type your Code " label="User Id" type="number"/>
-          <TrPasswordInput name="password" placeholder="Type Your password" label="Password" />
+          <TrForm onSubmit={submitLogic} resolver={zodResolver(loginSchema)}>
+            <TrInput
+              name="code"
+              placeholder="Type your Code "
+              label="User Id"
+              type="number"
+            />
+            <TrPasswordInput
+              name="password"
+              placeholder="Type Your password"
+              label="Password"
+            />
 
-          <Button type="submit">Login</Button>
-        </TrForm>
+            <Button disabled={isLoading} type="submit">
+              {isLoading && <Loader2 className="animate-spin" />} Login
+            </Button>
+          </TrForm>
         </CardContent>
-
-        
       </Card>
     </>
   );
