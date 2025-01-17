@@ -26,6 +26,7 @@ import { useRouter } from "next-nprogress-bar";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
+
 const loginSchema = z.object({
   code: z
     .string()
@@ -59,6 +60,11 @@ const LoginComp = () => {
       globalErrorHandler(error);
     }
   };
+
+  const defaultValue = {
+    code: "250002",
+    password: "01774605259",
+  };
   return (
     <>
       <Card className="mx-auto max-w-sm">
@@ -69,7 +75,7 @@ const LoginComp = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <TrForm onSubmit={submitLogic} resolver={zodResolver(loginSchema)}>
+          <TrForm onSubmit={submitLogic} defaultValues={defaultValue} resolver={zodResolver(loginSchema)}>
             <TrInput
               name="code"
               placeholder="Type your Code "

@@ -2,22 +2,23 @@
 import { ColumnConfig } from "@/app/types/globalTypes";
 import GlobalTable from "@/components/shared/global/GlobalTable";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
-import { ProductData } from "./ProductList";
 
-const ProductTable = ({ data }: { data: ProductData[] }) => {
+import React, { useState } from "react";
+
+import { TProduct } from "@/types";
+
+const ProductTable = ({ data }: { data: TProduct[] }) => {
   const [text, setText] = useState("");
 
   const newFilteredData = data.filter(
     (item) =>
       item.name.toLowerCase().includes(text.toLocaleLowerCase()) ||
-      item.code.toLowerCase().includes(text.toLocaleLowerCase())
+      item.productCode.toLowerCase().includes(text.toLocaleLowerCase())
   );
-  console.log(newFilteredData);
-  const columns: ColumnConfig<ProductData>[] = [
+
+  const columns: ColumnConfig<TProduct>[] = [
     {
-      key: "code",
+      key: "productCode",
       label: "Code",
       align: "center",
     },
@@ -44,8 +45,7 @@ const ProductTable = ({ data }: { data: ProductData[] }) => {
   ];
   return (
     <>
-      <div>
-        <Label htmlFor="search">Search</Label>
+      <div className="mb-4">
         <Input
           placeholder="Search your Product"
           name="search"
@@ -53,7 +53,7 @@ const ProductTable = ({ data }: { data: ProductData[] }) => {
           onChange={(e) => setText(e.target.value)}
         />
       </div>
-      <GlobalTable columns={columns} data={newFilteredData} />;
+      <GlobalTable columns={columns} data={newFilteredData} />
     </>
   );
 };

@@ -1,4 +1,6 @@
+import { TResponse } from "@/types";
 import { baseApi } from "../baseApi";
+import { TUser } from "@/redux/features/auth/authSlice";
 
 const authApi =baseApi.injectEndpoints({
     endpoints: (build) => ({
@@ -19,11 +21,17 @@ const authApi =baseApi.injectEndpoints({
                 method: 'POST',
             }),
         }),
+        getSingleUser: build.query<TResponse<TUser>, undefined>({
+            query: () => ({
+              url: "/users/get-user",
+              method: "GET",
+            }),
+          }),
     }),
     overrideExisting: false,
 })
 
 
-export const {useLoginMutation,useLogoutMutation}=authApi
+export const {useLoginMutation,useLogoutMutation,useGetSingleUserQuery}=authApi
 
 

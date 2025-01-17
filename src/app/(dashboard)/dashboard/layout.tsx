@@ -18,7 +18,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
+
             <GBreadcrumb />
+            <div className="ml-auto text-red-400">
+              <button>Logout</button>
+            </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
         </SidebarInset>
