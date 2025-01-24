@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 
 import { TProduct } from "@/types";
+import { Badge } from "@/components/ui/badge";
 
 const ProductTable = ({ data }: { data: TProduct[] }) => {
   const [text, setText] = useState("");
@@ -33,9 +34,22 @@ const ProductTable = ({ data }: { data: TProduct[] }) => {
       align: "center",
     },
     {
-      key: "fu",
-      label: "F/U",
+      key: "isDeleted",
+      label: "Active",
       align: "center",
+      render: (_, item) => {
+        return (
+          <>
+            {item?.isDeleted ? (
+              <Badge variant={"destructive"}>Inactive</Badge>
+            ) : (
+              <Badge variant={"outline"} className="">
+                Active
+              </Badge>
+            )}
+          </>
+        );
+      },
     },
     {
       key: "stock",
@@ -45,7 +59,7 @@ const ProductTable = ({ data }: { data: TProduct[] }) => {
   ];
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-2">
         <Input
           placeholder="Search your Product"
           name="search"

@@ -1,76 +1,120 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+"use client";
 
-const OrderForm = () => {
+import { Button } from "@/components/ui/button";
+import { useGeltAllProductsQuery } from "@/redux/api/productApi/productApi";
+import TrForm from "@/components/Form/TrForm";
+import TrSelect from "@/components/Form/inputs/TrSelect";
+import TrInput from "@/components/Form/inputs/TrInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useAddProductInOrderMutation,
+  useGetDealerOrderQuery,
+} from "@/redux/api/orderApi/orderApi";
+import { Skeleton } from "@/components/ui/skeleton";
+import GlobalSkeletonTable from "@/components/globalComponents/GlobalSkeletonTable";
+import { globalErrorHandler } from "@/utils/globalErrorHandler";
+
+const submitProductSchema = z.object({
+  doType: z.string({ message: "Do Type is required" }),
+  productCode: z.string({ message: "Product  is required" }),
+  orderId: z.string({ message: "Order id is required" }),
+  quantity: z
+    .string({ message: "Quantity is required" })
+    .transform((value) => parseFloat(value))
+    .refine((value) => !isNaN(value) && value > 0, {
+      message: "Quantity must be a positive number.",
+    }),
+});
+
+const OrderForm = ({
+  orderId,
+  isLoading,
+}: {
+  orderId: string;
+  isLoading: boolean;
+}) => {
+  const { data: allProductsData } = useGeltAllProductsQuery(undefined);
+
+  const [addProduct, { isLoading: addingProduct }] =
+    useAddProductInOrderMutation();
+  type dataType = z.infer<typeof submitProductSchema>;
+
+  const orderItemOption = allProductsData?.data?.map((item) => {
+    return { value: item?.productCode, label: item?.name };
+  });
+
+  const dotype = [
+    { value: "confirm", label: "Confirm Do" },
+    { value: "draft", label: "Draft" },
+  ];
+
+  const handleSubmit = async (data: dataType) => {
+    console.log({ data });
+    try {
+      const res = await addProduct(data);
+      console.log(res);
+    } catch (error) {
+      globalErrorHandler(error);
+    }
+  };
+
+  const defaultValue = {
+    orderId: orderId,
+  };
+
   return (
-    <form className="w-full">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-        <div className="flex-1">
-          <Label htmlFor="doType" className="text-sm font-medium">
-            Do Type<span className="text-red-500">*</span>
-          </Label>
-          <Select required>
-            <SelectTrigger id="doType" className="w-full">
-              <SelectValue placeholder="select" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="type1">Type 1</SelectItem>
-              <SelectItem value="type2">Type 2</SelectItem>
-              <SelectItem value="type3">Type 3</SelectItem>
-            </SelectContent>
-          </Select>
+    <TrForm
+      className="w-full mb-3"
+      onSubmit={handleSubmit}
+      resolver={zodResolver(submitProductSchema)}
+      defaultValues={defaultValue}
+    >
+      <div className="sm:flex items-start gap-2 w-full">
+        <div className="sm:grid w-full grid-cols-3 gap-3">
+          <div>
+            <TrSelect
+              name="doType"
+              label="Do Type"
+              isMulti={false}
+              placeholder="Select Do Type"
+              className="w-full"
+              options={dotype}
+              selectClass="w-full"
+            />
+          </div>
+          <div>
+            <TrSelect
+              name="productCode"
+              label="Item name"
+              isMulti={false}
+              placeholder="Select Item"
+              className="w-full"
+              options={orderItemOption || []}
+              selectClass="w-full"
+            />
+          </div>
+
+          <div>
+            <TrInput
+              name="quantity"
+              label="Qty"
+              placeholder="Order qty"
+              type="number"
+            />
+          </div>
+          <div className="hidden">
+            <TrInput
+              name="orderId"
+              label="Order Id"
+              placeholder="Order Id"
+              type="text"
+            />
+          </div>
         </div>
-        <div className="flex-1">
-          <Label htmlFor="code" className="text-sm font-medium">
-            Code / Name<span className="text-red-500">*</span>
-          </Label>
-          <Input
-            id="code"
-            placeholder="Item Code / Name"
-            required
-            className="w-full"
-          />
-        </div>
-        <div className="flex-1">
-          <Label htmlFor="qty" className="text-sm font-medium">
-            Qty<span className="text-red-500">*</span>
-          </Label>
-          <Input
-            id="qty"
-            placeholder="Order Qty"
-            type="number"
-            required
-            className="w-full"
-          />
-        </div>
-        <div className="flex-1">
-          <Label htmlFor="noteType" className="text-sm font-medium">
-            Note Type<span className="text-red-500">*</span>
-          </Label>
-          <Select required>
-            <SelectTrigger id="noteType" className="w-full">
-              <SelectValue placeholder="Select Note Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="note1">Note Type 1</SelectItem>
-              <SelectItem value="note2">Note Type 2</SelectItem>
-              <SelectItem value="note3">Note Type 3</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <Button type="submit">Submit</Button>
       </div>
-      <Button type="submit" className="my-5">
-        Submit
-      </Button>
-    </form>
+    </TrForm>
   );
 };
 

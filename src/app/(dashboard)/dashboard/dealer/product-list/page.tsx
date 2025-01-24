@@ -3,9 +3,9 @@ import React from 'react'
 
 function ProductListPage() {
   return (
-    <div>
+    <>
       <ProductList/>
-    </div>
+    </>
   )
 }
 

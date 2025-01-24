@@ -31,7 +31,7 @@ const GlobalTable: React.FC<GlobalTableProps> = ({
           {/* Table Header */}
           <TableHeader>
             <TableRow className="bg-muted/50">
-              {columns.map((column, index) => (
+              {columns?.map((column, index) => (
                 <TableHead
                   key={index}
                   className={`text-${column.align || "left"} ${

@@ -4,7 +4,6 @@ export type TProduct = {
   isDeleted: boolean;
   name: string;
   price: number;
-
   quantity: number;
   stock: number;
   updatedAt: string;
