@@ -7,17 +7,15 @@ import TrSelect from "@/components/Form/inputs/TrSelect";
 import TrInput from "@/components/Form/inputs/TrInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useAddProductInOrderMutation,
-  useGetDealerOrderQuery,
-} from "@/redux/api/orderApi/orderApi";
-import { Skeleton } from "@/components/ui/skeleton";
-import GlobalSkeletonTable from "@/components/globalComponents/GlobalSkeletonTable";
+import { useAddProductInOrderMutation } from "@/redux/api/orderApi/orderApi";
+
 import { globalErrorHandler } from "@/utils/globalErrorHandler";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const submitProductSchema = z.object({
   doType: z.string({ message: "Do Type is required" }),
-  productCode: z.string({ message: "Product  is required" }),
+  productCode: z.string({ message: "Product  is required" }).min(6),
   orderId: z.string({ message: "Order id is required" }),
   quantity: z
     .string({ message: "Quantity is required" })
@@ -27,13 +25,7 @@ const submitProductSchema = z.object({
     }),
 });
 
-const OrderForm = ({
-  orderId,
-  isLoading,
-}: {
-  orderId: string;
-  isLoading: boolean;
-}) => {
+const OrderForm = ({ orderId }: { orderId: string }) => {
   const { data: allProductsData } = useGeltAllProductsQuery(undefined);
 
   const [addProduct, { isLoading: addingProduct }] =
@@ -50,10 +42,11 @@ const OrderForm = ({
   ];
 
   const handleSubmit = async (data: dataType) => {
-    console.log({ data });
     try {
-      const res = await addProduct(data);
-      console.log(res);
+      const res = await addProduct(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message);
+      }
     } catch (error) {
       globalErrorHandler(error);
     }
@@ -61,6 +54,7 @@ const OrderForm = ({
 
   const defaultValue = {
     orderId: orderId,
+    dotype: "confirm",
   };
 
   return (
@@ -112,7 +106,9 @@ const OrderForm = ({
             />
           </div>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button disabled={addingProduct} type="submit">
+          {addingProduct && <Loader2 className="animate-spin" />}Submit
+        </Button>
       </div>
     </TrForm>
   );

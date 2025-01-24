@@ -15,10 +15,20 @@ function OrderEntry() {
       {isLoading ? (
         <GlobalSkeletonTable />
       ) : (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden flex flex-col gap-4">
+          <div className="sm:flex justify-between">
+           <div>
+           <h3 className="text-xl text-balance font-bold">Order Entry</h3>
+           <p className="text-gray">You can Order from here</p>
+           </div>
+           <div>
+            <p>Current Balance : 0</p>
+            <p>Remining Balance: 0</p>
+           </div>
+          </div>
           <OrderState>
-            <OrderForm isLoading={isLoading} orderId={orderData?.data?._id as string} />
-            <OrderTable orderData={orderData?.data as TDealerOrder}/>
+            <OrderForm orderId={orderData?.data?._id as string} />
+            <OrderTable orderData={orderData?.data as TDealerOrder} />
           </OrderState>
         </div>
       )}

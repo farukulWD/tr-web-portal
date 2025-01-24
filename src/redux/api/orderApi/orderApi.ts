@@ -19,6 +19,7 @@ const orderApi = baseApi.injectEndpoints({
         url: "/order/get-dealer-order",
         method: "Get",
       }),
+      providesTags:["productOrder"]
     }),
     addProductInOrder: build.mutation<
       TResponse<any>,
@@ -29,6 +30,7 @@ const orderApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: productData,
       }),
+      invalidatesTags:["productOrder"]
     }),
     deleteProductFromOrder: build.mutation<
       TResponse<any>,
@@ -39,7 +41,9 @@ const orderApi = baseApi.injectEndpoints({
         method: "DELETE",
         data: productData,
       }),
+      invalidatesTags:["productOrder"]
     }),
+    
   }),
 });
 
