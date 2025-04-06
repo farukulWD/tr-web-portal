@@ -25,6 +25,7 @@ import { setToken } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next-nprogress-bar";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useCreatOrderMutation } from "@/redux/api/orderApi/orderApi";
 
 
 const loginSchema = z.object({
@@ -39,11 +40,13 @@ const loginSchema = z.object({
 });
 const LoginComp = () => {
   const dispatach = useAppDispatch();
+  const [createOrder, { isLoading: creating }] = useCreatOrderMutation()
   const router = useRouter();
   const search = useSearchParams();
 
   const redirect = search.get("redirect");
   const [login, { isLoading }] = useLoginMutation();
+ 
 
   const submitLogic = async (vales: any) => {
     try {
@@ -51,6 +54,7 @@ const LoginComp = () => {
         accessToken: string;
       }> = await login(vales).unwrap();
       if (res.success) {
+        await createOrder({ orderType: "confirm" })
         dispatach(setToken(res?.data?.accessToken));
         localStorage.setItem("accessToken", res?.data?.accessToken);
         toast.success(res.message);

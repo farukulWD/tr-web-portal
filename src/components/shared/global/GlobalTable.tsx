@@ -46,9 +46,9 @@ const GlobalTable: React.FC<GlobalTableProps> = ({
 
           {/* Table Body */}
           <TableBody>
-            {data.map((row, rowIndex) => (
+            {data?.map((row, rowIndex) => (
               <TableRow key={rowIndex} className="hover:bg-muted/50">
-                {columns.map((column, colIndex) => (
+                {columns?.map((column, colIndex) => (
                   <TableCell
                     key={colIndex}
                     className={`text-${column.align || "left"} ${
@@ -68,7 +68,7 @@ const GlobalTable: React.FC<GlobalTableProps> = ({
           {footers && (
             <TableFooter className="bg-muted/50 font-medium">
               <TableRow>
-                {footers.map((footer, colIndex) => (
+                {footers?.map((footer, colIndex) => (
                   <TableCell key={colIndex} className="text-center">
                     {footer.render ? footer.render(data) : footer.label}
                   </TableCell>

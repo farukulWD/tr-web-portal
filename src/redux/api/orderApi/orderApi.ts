@@ -10,7 +10,7 @@ const orderApi = baseApi.injectEndpoints({
       query: ({ orderType }) => ({
         url: "/order/create",
         method: "POST",
-        data: orderType,
+        data: { orderType },
       }),
     }),
 
@@ -19,7 +19,7 @@ const orderApi = baseApi.injectEndpoints({
         url: "/order/get-dealer-order",
         method: "Get",
       }),
-      providesTags:["productOrder"]
+      providesTags: ["productOrder"]
     }),
     addProductInOrder: build.mutation<
       TResponse<any>,
@@ -30,7 +30,7 @@ const orderApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: productData,
       }),
-      invalidatesTags:["productOrder"]
+      invalidatesTags: ["productOrder"]
     }),
     deleteProductFromOrder: build.mutation<
       TResponse<any>,
@@ -41,9 +41,9 @@ const orderApi = baseApi.injectEndpoints({
         method: "DELETE",
         data: productData,
       }),
-      invalidatesTags:["productOrder"]
+      invalidatesTags: ["productOrder"]
     }),
-    
+
   }),
 });
 

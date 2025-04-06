@@ -1,3 +1,4 @@
+import LogoutComponent from "@/components/logout/LogoutComponent";
 import { AppSidebar } from "@/components/shared/asideBar/app-sidebar";
 import GBreadcrumb from "@/components/shared/asideBar/GBreadcrumb";
 
@@ -20,9 +21,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <Separator orientation="vertical" className="mr-2 h-4" />
 
             <GBreadcrumb />
-            <div className="ml-auto text-red-400">
-              <button>Logout</button>
-            </div>
+            <LogoutComponent/>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
         </SidebarInset>
