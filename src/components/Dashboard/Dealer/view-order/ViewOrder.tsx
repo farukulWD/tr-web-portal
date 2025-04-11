@@ -2,10 +2,13 @@
 
 import GlobalTable from "@/components/shared/global/GlobalTable";
 import { Button } from "@/components/ui/button";
+import { useCreateDoMutation } from "@/redux/api/doApi/doApi";
 import { useGetDealerOrderQuery } from "@/redux/api/orderApi/orderApi";
 import { IProduct } from "@/types";
+import { globalErrorHandler } from "@/utils/globalErrorHandler";
 import dayjs from "dayjs";
 import React from "react";
+import { toast } from "sonner";
 interface ColumnConfig {
   key: string;
   label: string;
@@ -14,7 +17,22 @@ interface ColumnConfig {
   render?: (value: any, item?: IProduct | undefined) => React.ReactNode;
 }
 function ViewOrder() {
-  const { data: orderData, isLoading } = useGetDealerOrderQuery(undefined);
+  const { data: orderData } = useGetDealerOrderQuery(undefined);
+  const [createDo, { isLoading }] = useCreateDoMutation();
+
+  const makeDo = async () => {
+    if (orderData?.data?._id) {
+      try {
+        const result = await createDo({
+          orderId: orderData?.data?._id,
+        }).unwrap();
+        toast.success(result.message)
+      } catch (error) {
+        console.log(error);
+        globalErrorHandler(error);
+      }
+    }
+  };
 
   const columns: ColumnConfig[] = [
     {
@@ -109,7 +127,9 @@ function ViewOrder() {
           </p>
         </div>
         <div>
-          <Button>Active</Button>
+          <Button disabled={isLoading} onClick={() => makeDo()}>
+            {isLoading ? "Processing" : "Active"}
+          </Button>
         </div>
       </div>
       <GlobalTable
