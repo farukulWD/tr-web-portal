@@ -26,7 +26,7 @@ const submitProductSchema = z.object({
 });
 
 const OrderForm = ({ orderId }: { orderId: string }) => {
-  console.log(orderId)
+  console.log(orderId);
   const { data: allProductsData } = useGeltAllProductsQuery(undefined);
 
   const [addProduct, { isLoading: addingProduct }] =
@@ -43,7 +43,6 @@ const OrderForm = ({ orderId }: { orderId: string }) => {
   ];
 
   const handleSubmit = async (data: dataType) => {
-    console.log(data)
     try {
       const res = await addProduct(data).unwrap();
       if (res?.success) {

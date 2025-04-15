@@ -26,7 +26,7 @@ import { useRouter } from "next-nprogress-bar";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useCreatOrderMutation } from "@/redux/api/orderApi/orderApi";
-
+import { jwtDecode } from "jwt-decode";
 
 const loginSchema = z.object({
   code: z
@@ -39,14 +39,13 @@ const loginSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters." }),
 });
 const LoginComp = () => {
-  const dispatach = useAppDispatch();
-  const [createOrder, { isLoading: creating }] = useCreatOrderMutation()
+  const dispatch = useAppDispatch();
+  const [createOrder, { isLoading: creating }] = useCreatOrderMutation();
   const router = useRouter();
   const search = useSearchParams();
 
   const redirect = search.get("redirect");
   const [login, { isLoading }] = useLoginMutation();
- 
 
   const submitLogic = async (vales: any) => {
     try {
@@ -54,11 +53,34 @@ const LoginComp = () => {
         accessToken: string;
       }> = await login(vales).unwrap();
       if (res.success) {
-        await createOrder({ orderType: "confirm" })
-        dispatach(setToken(res?.data?.accessToken));
-        localStorage.setItem("accessToken", res?.data?.accessToken);
+        const decodedToken: {
+          exp: number;
+          role: "admin" | "superAdmin" | "dealer" | "sr";
+        } = jwtDecode(res?.data?.accessToken);
+        if (decodedToken) {
+          if (
+            decodedToken?.role === "admin" ||
+            decodedToken?.role === "superAdmin"
+          ) {
+            toast.error(
+              "You are not allowed to login as admin or super admin from here"
+            );
+            return;
+          }
+          if (decodedToken?.role === "dealer") {
+            dispatch(setToken(res?.data?.accessToken));
+            localStorage.setItem("accessToken", res?.data?.accessToken);
+            await createOrder({ orderType: "confirm" });
+            router.push("/dashboard/dealer");
+          }
+          if (decodedToken?.role === "sr") {
+            dispatch(setToken(res?.data?.accessToken));
+            localStorage.setItem("accessToken", res?.data?.accessToken);
+            router.push("/dashboard/sr");
+          }
+        }
+
         toast.success(res.message);
-        router.push(redirect || "/dashboard");
       }
     } catch (error) {
       globalErrorHandler(error);
@@ -79,7 +101,11 @@ const LoginComp = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <TrForm onSubmit={submitLogic} defaultValues={defaultValue} resolver={zodResolver(loginSchema)}>
+          <TrForm
+            onSubmit={submitLogic}
+            defaultValues={defaultValue}
+            resolver={zodResolver(loginSchema)}
+          >
             <TrInput
               name="code"
               placeholder="Type your Code "

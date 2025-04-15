@@ -61,37 +61,37 @@ const data: navData[] = [
       },
     ],
   },
-  {
-    title: "Accounts",
-    url: "#",
-    items: [
-      {
-        title: "Profile",
-        url: "/dashboard/accounts/profile",
-      },
-      {
-        title: "Bank Info",
-        url: "/dashboard/accounts/bank-info",
-        // isActive: true,
-      },
-      {
-        title: "Change Password",
-        url: "/dashboard/accounts/change-password",
-      },
-      {
-        title: "Credit Info",
-        url: "/dashboard/accounts/credit-info",
-      },
-      {
-        title: "MR Info",
-        url: "/dashboard/accounts/mr-info",
-      },
-      {
-        title: "Nishchinto Fund",
-        url: "/dashboard/accounts/nishchinto-fund",
-      },
-    ],
-  },
+  // {
+  //   title: "Accounts",
+  //   url: "#",
+  //   items: [
+  //     {
+  //       title: "Profile",
+  //       url: "/dashboard/accounts/profile",
+  //     },
+  //     {
+  //       title: "Bank Info",
+  //       url: "/dashboard/accounts/bank-info",
+  //       // isActive: true,
+  //     },
+  //     {
+  //       title: "Change Password",
+  //       url: "/dashboard/accounts/change-password",
+  //     },
+  //     {
+  //       title: "Credit Info",
+  //       url: "/dashboard/accounts/credit-info",
+  //     },
+  //     {
+  //       title: "MR Info",
+  //       url: "/dashboard/accounts/mr-info",
+  //     },
+  //     {
+  //       title: "Nishchinto Fund",
+  //       url: "/dashboard/accounts/nishchinto-fund",
+  //     },
+  //   ],
+  // },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
