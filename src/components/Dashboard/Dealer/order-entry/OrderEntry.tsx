@@ -3,19 +3,24 @@ import React, { useEffect } from "react";
 import OrderForm from "./OrderForm";
 import OrderState from "./OrderState";
 import OrderTable from "./OrderTable";
-import { useCreatOrderMutation, useGetDealerOrderQuery } from "@/redux/api/orderApi/orderApi";
+import {
+  useCreatOrderMutation,
+  useGetDealerOrderQuery,
+} from "@/redux/api/orderApi/orderApi";
 import GlobalSkeletonTable from "@/components/globalComponents/GlobalSkeletonTable";
 import { TDealerOrder } from "@/types";
+import { useAppSelector } from "@/redux/hook";
+import { useGetDealerDataQuery } from "@/redux/api/dealerApi/dealerApi";
 
 function OrderEntry() {
- 
- 
+  const { user } = useAppSelector((state) => state.auth);
   const { data: orderData, isLoading } = useGetDealerOrderQuery(undefined);
 
+  const { data,isLoading:dealerLoading} = useGetDealerDataQuery(user?.code, { skip: !user?.code });
 
   return (
     <>
-      { isLoading ? (
+      {(isLoading || dealerLoading) ? (
         <GlobalSkeletonTable />
       ) : (
         <div className="overflow-hidden flex flex-col gap-4">
@@ -25,8 +30,8 @@ function OrderEntry() {
               <p className="text-gray">You can Order from here</p>
             </div>
             <div>
-              <p>Current Balance : 0</p>
-              <p>Remining Balance: 0</p>
+              <p>Current Balance ....: {data?.data?.money || 0}</p>
+              <p>Remaining Balance ..: {data?.data?.money - (orderData?.data?.total ?? 0)}</p>
             </div>
           </div>
           <OrderState>
