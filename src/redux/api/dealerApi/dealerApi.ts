@@ -7,6 +7,7 @@ const dealerApi = baseApi.injectEndpoints({
                 url: `/dealer/get-dealer/${dealerCode}`,
                 method: "GET",
             }),
+            providesTags: ["dealer","productOrder"],
         })
     })
 })

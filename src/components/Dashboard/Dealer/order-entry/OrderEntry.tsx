@@ -14,9 +14,9 @@ import { useGetDealerDataQuery } from "@/redux/api/dealerApi/dealerApi";
 
 function OrderEntry() {
   const { user } = useAppSelector((state) => state.auth);
-  const { data: orderData, isLoading } = useGetDealerOrderQuery(undefined);
+  const { data: orderData, isLoading } = useGetDealerOrderQuery(undefined,{refetchOnMountOrArgChange: true});
 
-  const { data,isLoading:dealerLoading} = useGetDealerDataQuery(user?.code, { skip: !user?.code });
+  const { data,isLoading:dealerLoading} = useGetDealerDataQuery(user?.code, { skip: !user?.code, refetchOnMountOrArgChange: true });
 
   return (
     <>

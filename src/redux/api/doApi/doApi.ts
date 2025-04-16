@@ -9,7 +9,7 @@ const doApi = baseApi.injectEndpoints({
         method: "POST",
         data: orderId,
       }),
-      invalidatesTags: ["productOrder"],
+      invalidatesTags: ["productOrder","dealer", "order"],
     }),
     getUndeliveredProducts: build.query<TResponse<any>, number>({
       query: (dealerCode) => ({
