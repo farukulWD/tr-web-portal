@@ -18,22 +18,21 @@ function Undelivered() {
       label: "Do Date",
       align: "left",
       render: (_, item) => {
-        console.log(item)
         return <p>{dayjs(item?.product?.createdAt).format("DD/MM/YYYY")}</p>;
       },
     },
     {
-      key:"orderCode",
+      key: "orderCode",
       label: "Order Code",
       align: "left",
     },
     {
-      key : "productCode",
+      key: "productCode",
       label: "Product Code",
       align: "left",
       render: (_, item) => {
         return <p>{item?.product?.productCode}</p>;
-      }
+      },
     },
     {
       key: "productName",
@@ -53,8 +52,6 @@ function Undelivered() {
       label: "Total Price",
       align: "left",
     },
-   
-    
   ];
   return (
     <div className="flex flex-col gap-4">
