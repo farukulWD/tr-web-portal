@@ -34,6 +34,10 @@ COPY --from=build /app/.next ./.next
 # Copy the public folder (images, static assets)
 COPY --from=build /app/public /public
 
+
+# copy environment variables
+COPY --from=build /app/.env ./.env
+
 # Expose the port Next.js will run on
 EXPOSE 3001
 
