@@ -37,6 +37,7 @@ COPY --from=build /app/.next ./.next
 
 # copy environment variables
 COPY --from=build /app/.env ./.env
+COPY .env .env
 
 # Expose the port Next.js will run on
 EXPOSE 3001
