@@ -87,10 +87,6 @@ const LoginComp = () => {
     }
   };
 
-  const defaultValue = {
-    code: "250002",
-    password: "01774605259",
-  };
   return (
     <>
       <Card className="mx-auto max-w-sm">
@@ -103,7 +99,6 @@ const LoginComp = () => {
         <CardContent>
           <TrForm
             onSubmit={submitLogic}
-            defaultValues={defaultValue}
             resolver={zodResolver(loginSchema)}
           >
             <TrInput

@@ -4,7 +4,9 @@ import React from 'react'
 function DamageEntryPage() {
   return (
     <div>
-      <DamageEntry/>
+      {/* <DamageEntry/> */}
+      <h1>Damage Entry</h1>
+      <p>Damage Entry page Coming soon.</p>
     </div>
   )
 }
