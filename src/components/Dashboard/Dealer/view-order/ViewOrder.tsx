@@ -69,13 +69,21 @@ function ViewOrder() {
 
     { key: "quantity", label: "Qty", align: "center" },
     {
+      key: "sp",
+      label: "SP",
+      align: "center",
+    },
+    {
+      key: "np",
+      label: "NP",
+      align: "center",
+    },
+    {
       key: "total",
       label: "Total",
       align: "center",
       render: (_, item) => {
-        return (
-          <p>{(item?.product?.price as number) * (item?.quantity as number)}</p>
-        );
+        return <p>{item?.total}</p>;
       },
     },
   ];
@@ -108,12 +116,17 @@ function ViewOrder() {
           .toLocaleString(),
     },
     {
+      key: "sp",
+      label: "#",
+    },
+    {
+      key: "sp",
+      label: "#",
+    },
+    {
       key: "total",
       label: "Total Price",
-      render: () =>
-        orderData?.data?.product
-          ?.reduce((sum, row) => sum + row?.price * row?.quantity, 0)
-          .toLocaleString(),
+      render: () => orderData?.data?.total,
     },
   ];
 

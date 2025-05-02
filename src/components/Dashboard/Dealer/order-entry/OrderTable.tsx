@@ -23,7 +23,7 @@ interface ColumnConfig {
 }
 
 const OrderTable = ({ orderData }: { orderData: TDealerOrder }) => {
-  const [deleteFromOrder,{isLoading}] = useDeleteProductFromOrderMutation();
+  const [deleteFromOrder, { isLoading }] = useDeleteProductFromOrderMutation();
 
   const hendleDelete = async (productId: string) => {
     try {
@@ -75,13 +75,21 @@ const OrderTable = ({ orderData }: { orderData: TDealerOrder }) => {
     // { key: "factor", label: "Factor", align: "center" },
     { key: "quantity", label: "Qty", align: "center" },
     {
+      key: "sp",
+      label: "SP",
+      align: "center",
+    },
+    {
+      key: "np",
+      label: "NP",
+      align: "center",
+    },
+    {
       key: "total",
       label: "Total",
       align: "center",
       render: (_, item) => {
-        return (
-          <p>{(item?.product?.price as number) * (item?.quantity as number)}</p>
-        );
+        return <p>{item?.total}</p>;
       },
     },
     {
@@ -93,12 +101,12 @@ const OrderTable = ({ orderData }: { orderData: TDealerOrder }) => {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-              disabled={isLoading}
+                disabled={isLoading}
                 variant="destructive"
                 size="sm"
                 onClick={() => hendleDelete(item?._id)}
               >
-                <Trash2  className={`h-4 w-4 ${isLoading&& "animate-spin"}`} />
+                <Trash2 className={`h-4 w-4 ${isLoading && "animate-spin"}`} />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Delete this item</TooltipContent>
@@ -136,12 +144,17 @@ const OrderTable = ({ orderData }: { orderData: TDealerOrder }) => {
           .toLocaleString(),
     },
     {
+      key: "sp",
+      label: "#",
+    },
+    {
+      key: "sp",
+      label: "#",
+    },
+    {
       key: "total",
       label: "Total Price",
-      render: () =>
-        orderData?.product
-          ?.reduce((sum, row) => sum + row?.price * row?.quantity, 0)
-          .toLocaleString(),
+      render: () => orderData?.total,
     },
   ];
 

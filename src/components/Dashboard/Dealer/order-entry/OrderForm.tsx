@@ -16,6 +16,13 @@ import { toast } from "sonner";
 const submitProductSchema = z.object({
   doType: z.string({ message: "Do Type is required" }),
   productCode: z.string({ message: "Product  is required" }).min(6),
+  sp: z
+    .string()
+    .optional()
+    .transform((value) => parseFloat(value ?? "0"))
+    .refine((value) => !isNaN(value) && value > 0, {
+      message: "SP must be a positive number.",
+    }),
   orderId: z.string({ message: "Order id is required" }),
   quantity: z
     .string({ message: "Quantity is required" })
@@ -43,6 +50,7 @@ const OrderForm = ({ orderId }: { orderId: string }) => {
   ];
 
   const handleSubmit = async (data: dataType) => {
+    console.log(data);
     try {
       const res = await addProduct(data).unwrap();
       if (res?.success) {
@@ -55,7 +63,7 @@ const OrderForm = ({ orderId }: { orderId: string }) => {
 
   const defaultValue = {
     orderId: orderId,
-    dotype: "confirm",
+    doType: "confirm",
   };
 
   return (
@@ -67,7 +75,7 @@ const OrderForm = ({ orderId }: { orderId: string }) => {
     >
       <div className="sm:flex items-start gap-2 w-full">
         <div className="sm:grid w-full grid-cols-3 gap-3">
-          <div>
+          <div className="hidden">
             <TrSelect
               name="doType"
               label="Do Type"
@@ -97,6 +105,9 @@ const OrderForm = ({ orderId }: { orderId: string }) => {
               placeholder="Order qty"
               type="number"
             />
+          </div>
+          <div>
+            <TrInput name="sp" label="SP" placeholder="SP" type="number" />
           </div>
           <div className="hidden">
             <TrInput

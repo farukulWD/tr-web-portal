@@ -13,14 +13,16 @@ const GBreadcrumb = () => {
   // const path = usePathname();
 
   // const spitePath = path.split("/").slice(1, path.length);
-  const { user } = useAppSelector((s) => s.auth);
-  console.log(user);
+  const { user ,dealer} = useAppSelector((s) => s.auth);
+
+
+
 
   return (
     <Breadcrumb>
       <BreadcrumbList className="w-full">
         <BreadcrumbItem className="hidden md:block">
-          <BreadcrumbLink href="">{user?.code}</BreadcrumbLink>
+          <BreadcrumbLink href="">{user?.code} {dealer?.shopName}</BreadcrumbLink>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

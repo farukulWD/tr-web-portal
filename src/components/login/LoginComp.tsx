@@ -20,12 +20,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { globalErrorHandler } from "@/utils/globalErrorHandler";
 import { TResponse } from "@/types";
 import { toast } from "sonner";
-import { useAppDispatch } from "@/redux/hook";
-import { setToken } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import {
+  setDealer,
+  setToken,
+  setUser,
+  TUser,
+} from "@/redux/features/auth/authSlice";
 import { useRouter } from "next-nprogress-bar";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { useCreatOrderMutation } from "@/redux/api/orderApi/orderApi";
+import { useCreateOrderMutation } from "@/redux/api/orderApi/orderApi";
 import { jwtDecode } from "jwt-decode";
 
 const loginSchema = z.object({
@@ -40,7 +45,8 @@ const loginSchema = z.object({
 });
 const LoginComp = () => {
   const dispatch = useAppDispatch();
-  const [createOrder, { isLoading: creating }] = useCreatOrderMutation();
+  const { user } = useAppSelector((state) => state.auth);
+  const [createOrder, { isLoading: creating }] = useCreateOrderMutation();
   const router = useRouter();
   const search = useSearchParams();
 
@@ -51,6 +57,7 @@ const LoginComp = () => {
     try {
       const res: TResponse<{
         accessToken: string;
+        user: TUser;
       }> = await login(vales).unwrap();
       if (res.success) {
         const decodedToken: {
@@ -69,6 +76,7 @@ const LoginComp = () => {
           }
           if (decodedToken?.role === "dealer") {
             dispatch(setToken(res?.data?.accessToken));
+            setUser(res?.data?.user);
             localStorage.setItem("accessToken", res?.data?.accessToken);
             await createOrder({ orderType: "confirm" });
             router.push("/dashboard/dealer");
@@ -97,10 +105,7 @@ const LoginComp = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <TrForm
-            onSubmit={submitLogic}
-            resolver={zodResolver(loginSchema)}
-          >
+          <TrForm onSubmit={submitLogic} resolver={zodResolver(loginSchema)}>
             <TrInput
               name="code"
               placeholder="Type your Code "

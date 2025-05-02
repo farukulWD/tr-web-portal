@@ -3,7 +3,7 @@ import { baseApi } from "../baseApi";
 
 const orderApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    creatOrder: build.mutation<
+    createOrder: build.mutation<
       TResponse<any>,
       { orderType: "confirm" | "draft" }
     >({
@@ -48,7 +48,7 @@ const orderApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useCreatOrderMutation,
+  useCreateOrderMutation,
   useAddProductInOrderMutation,
   useDeleteProductFromOrderMutation,
   useGetDealerOrderQuery,
