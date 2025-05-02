@@ -76,7 +76,8 @@ const LoginComp = () => {
           }
           if (decodedToken?.role === "dealer") {
             dispatch(setToken(res?.data?.accessToken));
-            setUser(res?.data?.user);
+            dispatch(setUser(res?.data?.user));
+
             localStorage.setItem("accessToken", res?.data?.accessToken);
             await createOrder({ orderType: "confirm" });
             router.push("/dashboard/dealer");
