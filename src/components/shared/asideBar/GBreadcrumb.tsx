@@ -17,7 +17,6 @@ const GBreadcrumb = () => {
   // const spitePath = path.split("/").slice(1, path.length);
   const { user, dealer } = useAppSelector((s) => s.auth);
 
-console.log(user?.code)
   const dispatch = useAppDispatch();
   const { data: dealerData, isLoading: dealerLoading } = useGetDealerDataQuery(
     user?.code,
@@ -30,12 +29,12 @@ console.log(user?.code)
     if (dealerData) {
       dispatch(setDealer(dealerData?.data));
     }
-  }, [user?.code,dealerData]);
+  }, [user?.code, dealerData]);
 
   return (
     <Breadcrumb>
       <BreadcrumbList className="w-full">
-        <BreadcrumbItem className="hidden md:block">
+        <BreadcrumbItem className="">
           <BreadcrumbLink href="">
             {user?.code} {dealer?.shopName}
           </BreadcrumbLink>
