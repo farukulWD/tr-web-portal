@@ -99,7 +99,7 @@ const LoginComp = () => {
   return (
     <>
       <Card className="mx-auto max-w-sm">
-        <CardHeader className="space-y-1">
+        <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>
             Enter your email and password to login to your account
