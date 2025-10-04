@@ -3,10 +3,7 @@ import React, { useEffect } from "react";
 import OrderForm from "./OrderForm";
 import OrderState from "./OrderState";
 import OrderTable from "./OrderTable";
-import {
-  useCreateOrderMutation,
-  useGetDealerOrderQuery,
-} from "@/redux/api/orderApi/orderApi";
+import { useGetDealerOrderQuery } from "@/redux/api/orderApi/orderApi";
 import GlobalSkeletonTable from "@/components/globalComponents/GlobalSkeletonTable";
 import { TDealerOrder } from "@/types";
 import { useAppSelector } from "@/redux/hook";
@@ -17,7 +14,7 @@ function OrderEntry() {
   const { data: orderData, isLoading } = useGetDealerOrderQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-console.log(orderData, "orderData");
+  console.log(orderData, "orderData");
   const { data, isLoading: dealerLoading } = useGetDealerDataQuery(user?.code, {
     skip: !user?.code,
     refetchOnMountOrArgChange: true,
@@ -38,7 +35,9 @@ console.log(orderData, "orderData");
               <p>Current Balance ....: {data?.data?.money || 0}</p>
               <p>
                 Remaining Balance ..:{" "}
-                {data?.data?.money - (orderData?.data?.total ?? 0)}
+                {(
+                  data?.data?.money - (orderData?.data?.total ?? 0) || 0
+                ).toFixed(2)}
               </p>
             </div>
           </div>
